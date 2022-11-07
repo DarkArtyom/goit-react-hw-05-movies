@@ -1,7 +1,7 @@
 import { Outlet } from 'react-router-dom';
 import { StyledLink, Container, Nav } from './Layout.styled';
 
-export const Layout = () => {
+const Layout = () => {
   return (
     <Container>
       <header>
@@ -16,3 +16,5 @@ export const Layout = () => {
     </Container>
   );
 };
+
+export default Layout;
