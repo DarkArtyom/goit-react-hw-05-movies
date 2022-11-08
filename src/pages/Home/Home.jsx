@@ -1,12 +1,17 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import ListFilm from 'components/ListFilm/ListFilm';
 
 const Home = () => {
   const [films, setFilms] = useState([]);
+  const isFirstRender = useRef(true);
   useEffect(() => {
     (async function () {
       try {
+        if (isFirstRender.current) {
+          isFirstRender.current = false;
+          return;
+        }
         const dataFetch = await axios.get(
           `https://api.themoviedb.org/3/trending/movie/day?api_key=7e0fc0f40a1f522dce260b9a97593bef`
         );
