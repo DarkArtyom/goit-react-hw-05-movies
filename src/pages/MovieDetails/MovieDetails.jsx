@@ -1,6 +1,6 @@
 // import axios from 'axios';
 import { Suspense } from 'react';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams, Outlet, useLocation } from 'react-router-dom';
 import { StyledLink } from 'components/Layout/Layout.styled';
 import {
@@ -16,23 +16,23 @@ import { getFilmById } from 'components/Services/Fetches';
 const MovieDetails = () => {
   const { movieId } = useParams();
   const [filmById, setFilmById] = useState(null);
-  const isFirstPage = useRef(true);
   const location = useLocation();
   const backLinkHref = location.state?.from ?? '/movies';
 
   useEffect(() => {
+    const controller = new AbortController();
+    const signal = controller.signal;
     (async function () {
       try {
-        if (isFirstPage.current) {
-          isFirstPage.current = false;
-          return;
-        }
-        const fetchFilmById = await getFilmById({ movieId });
+        const fetchFilmById = await getFilmById({ movieId }, signal);
         setFilmById(fetchFilmById.data);
       } catch (error) {
         console.log(error);
       }
     })();
+    return () => {
+      controller.abort();
+    };
   }, [movieId]);
   if (!filmById) {
     return;

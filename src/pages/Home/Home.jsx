@@ -1,18 +1,16 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import ListFilm from 'components/ListFilm/ListFilm';
-import api from 'components/Services/Fetches';
+import { fetchTrending } from 'components/Services/Fetches';
 
 const Home = () => {
   const [films, setFilms] = useState([]);
-  const isFirstRender = useRef(true);
   useEffect(() => {
+    const controller = new AbortController();
+    const signal = controller.signal;
+
     (async function () {
       try {
-        if (isFirstRender.current) {
-          isFirstRender.current = false;
-          return;
-        }
-        const dataFetch = await api.fetchTrending();
+        const dataFetch = await fetchTrending(signal);
         if (!dataFetch) {
           return;
         }
@@ -20,6 +18,10 @@ const Home = () => {
         setFilms(p => [...p, ...filmsData]);
       } catch (error) {}
     })();
+
+    return () => {
+      controller.abort();
+    };
   }, []);
 
   return (

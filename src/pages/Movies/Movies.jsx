@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router';
 
 import SearchBar from 'components/SearchBar/SearchBar';
@@ -7,20 +7,17 @@ import { getFilmByName } from 'components/Services/Fetches';
 const Movies = () => {
   const [filmName, setFilmName] = useState('');
   const [foundFilms, setFoundFilms] = useState([]);
-  const isFirstPage = useRef(true);
   const location = useLocation();
 
   useEffect(() => {
+    const controller = new AbortController();
+    const signal = controller.signal;
     (async function () {
       try {
-        if (isFirstPage.current) {
-          isFirstPage.current = false;
-          return;
-        }
         if (filmName === '') {
           return;
         }
-        const fetchSearchingFilms = await getFilmByName({ filmName });
+        const fetchSearchingFilms = await getFilmByName({ filmName }, signal);
         if (fetchSearchingFilms.data.results.length === 0) {
           alert('Sorry, there are no films with this word');
         } else {
@@ -30,6 +27,9 @@ const Movies = () => {
         console.log(error);
       }
     })();
+    return () => {
+      controller.abort();
+    };
   }, [filmName]);
 
   const handleSubmitForm = filmName => {

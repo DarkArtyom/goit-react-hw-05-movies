@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import {
   CastList,
@@ -12,21 +12,22 @@ import { getFilmCast } from 'components/Services/Fetches';
 const Cast = () => {
   const { movieId } = useParams();
   const [filmCast, setFilmCast] = useState([]);
-  const isFirstRender = useRef(true);
 
   useEffect(() => {
+    const controller = new AbortController();
+    const signal = controller.signal;
+
     (async function () {
       try {
-        if (isFirstRender.current) {
-          isFirstRender.current = false;
-          return;
-        }
-        const fetchFilmCast = await getFilmCast({ movieId });
+        const fetchFilmCast = await getFilmCast({ movieId }, signal);
         setFilmCast(p => [...p, ...fetchFilmCast.data.cast]);
       } catch (error) {
         console.log(error);
       }
     })();
+    return () => {
+      controller.abort();
+    };
   }, [movieId]);
 
   if (!movieId) {

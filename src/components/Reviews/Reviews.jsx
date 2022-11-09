@@ -1,25 +1,25 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { getFilmReviews } from 'components/Services/Fetches';
 import { useParams } from 'react-router-dom';
 
 const Reviews = () => {
   const { movieId } = useParams();
   const [filmReview, setfilmReview] = useState([]);
-  const isFirstRender = useRef(true);
 
   useEffect(() => {
+    const controller = new AbortController();
+    const signal = controller.signal;
     (async function () {
       try {
-        if (isFirstRender.current) {
-          isFirstRender.current = false;
-          return;
-        }
-        const fetchReviews = await getFilmReviews({ movieId });
+        const fetchReviews = await getFilmReviews({ movieId }, signal);
         setfilmReview(p => [...p, ...fetchReviews.data.results]);
       } catch (error) {
         console.log(error);
       }
     })();
+    return () => {
+      controller.abort();
+    };
   }, [movieId]);
 
   if (!movieId) {
