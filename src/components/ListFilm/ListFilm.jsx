@@ -2,7 +2,6 @@ import { StyledLink } from '../Layout/Layout.styled';
 import PropTypes from 'prop-types';
 
 const ListFilm = ({ films }) => {
-  console.log(films);
   return (
     <ul>
       {films.map(({ id, title }) => (

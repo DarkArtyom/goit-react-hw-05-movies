@@ -21,7 +21,7 @@ const Home = () => {
       } catch (error) {}
     })();
   }, []);
-  console.log(films);
+
   return (
     <main>
       <h1>Trending today</h1>
