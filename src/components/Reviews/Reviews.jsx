@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import axios from 'axios';
+import { getFilmReviews } from 'components/Services/Fetches';
 import { useParams } from 'react-router-dom';
 
 const Reviews = () => {
@@ -14,10 +14,7 @@ const Reviews = () => {
           isFirstRender.current = false;
           return;
         }
-        const fetchReviews = await axios.get(
-          `https://api.themoviedb.org/3/movie/${movieId}/reviews?api_key=7e0fc0f40a1f522dce260b9a97593bef&language=en-US`
-        );
-        console.log(fetchReviews);
+        const fetchReviews = await getFilmReviews({ movieId });
         setfilmReview(p => [...p, ...fetchReviews.data.results]);
       } catch (error) {
         console.log(error);

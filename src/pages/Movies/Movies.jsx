@@ -1,10 +1,9 @@
 import { useState, useEffect, useRef } from 'react';
-import axios from 'axios';
 import { useLocation } from 'react-router';
 
 import SearchBar from 'components/SearchBar/SearchBar';
 import { StyledLink } from 'components/Layout/Layout.styled';
-
+import { getFilmByName } from 'components/Services/Fetches';
 const Movies = () => {
   const [filmName, setFilmName] = useState('');
   const [foundFilms, setFoundFilms] = useState([]);
@@ -21,10 +20,7 @@ const Movies = () => {
         if (filmName === '') {
           return;
         }
-        const fetchSearchingFilms = await axios.get(
-          `https://api.themoviedb.org/3/search/movie?api_key=7e0fc0f40a1f522dce260b9a97593bef&language=en-US&query=${filmName}`
-        );
-        console.log(fetchSearchingFilms);
+        const fetchSearchingFilms = await getFilmByName({ filmName });
         setFoundFilms(fetchSearchingFilms.data.results);
       } catch (error) {
         console.log(error);

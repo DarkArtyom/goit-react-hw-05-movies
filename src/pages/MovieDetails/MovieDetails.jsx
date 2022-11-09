@@ -1,4 +1,4 @@
-import axios from 'axios';
+// import axios from 'axios';
 import { Suspense } from 'react';
 import { useState, useEffect, useRef } from 'react';
 import { useParams, Outlet, useLocation } from 'react-router-dom';
@@ -11,6 +11,7 @@ import {
   AditionalList,
   AditionalTitle,
 } from './MovieDetails.styled';
+import { getFilmById } from 'components/Services/Fetches';
 
 const MovieDetails = () => {
   const { movieId } = useParams();
@@ -26,16 +27,13 @@ const MovieDetails = () => {
           isFirstPage.current = false;
           return;
         }
-        const fetchFilmById = await axios.get(
-          `https://api.themoviedb.org/3/movie/${movieId}?api_key=7e0fc0f40a1f522dce260b9a97593bef&language=en-US`
-        );
+        const fetchFilmById = await getFilmById({ movieId });
         setFilmById(fetchFilmById.data);
       } catch (error) {
         console.log(error);
       }
     })();
   }, [movieId]);
-
   if (!filmById) {
     return;
   }

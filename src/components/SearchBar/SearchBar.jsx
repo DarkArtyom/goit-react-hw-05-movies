@@ -7,13 +7,11 @@ import {
 } from './SearchBar.styled';
 import { FcSearch } from 'react-icons/fc';
 import PropTypes from 'prop-types';
-// import { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
 const SearchBar = ({ onInputSubmit }) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const query = searchParams.get('query') ?? '';
-  // const [filmName, setFilmName] = useState('');
 
   const handleFilmName = event => {
     setSearchParams({ query: event.currentTarget.value.toLowerCase() });
@@ -26,7 +24,6 @@ const SearchBar = ({ onInputSubmit }) => {
       return alert('Enter image for search');
     }
     onInputSubmit(query);
-    // setFilmName('');
   };
 
   return (

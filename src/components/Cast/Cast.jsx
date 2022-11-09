@@ -1,5 +1,4 @@
 import { useState, useEffect, useRef } from 'react';
-import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import {
   CastList,
@@ -8,6 +7,7 @@ import {
   Section,
   CastImg,
 } from './Cast.styled';
+import { getFilmCast } from 'components/Services/Fetches';
 
 const Cast = () => {
   const { movieId } = useParams();
@@ -21,9 +21,7 @@ const Cast = () => {
           isFirstRender.current = false;
           return;
         }
-        const fetchFilmCast = await axios.get(
-          `https://api.themoviedb.org/3/movie/${movieId}/credits?api_key=7e0fc0f40a1f522dce260b9a97593bef&language=en-US`
-        );
+        const fetchFilmCast = await getFilmCast({ movieId });
         setFilmCast(p => [...p, ...fetchFilmCast.data.cast]);
       } catch (error) {
         console.log(error);

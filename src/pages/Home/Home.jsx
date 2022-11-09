@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
-import axios from 'axios';
+// import axios from 'axios';
 import ListFilm from 'components/ListFilm/ListFilm';
+import { fetchTrending } from 'components/Services/Fetches';
 
 const Home = () => {
   const [films, setFilms] = useState([]);
@@ -12,13 +13,10 @@ const Home = () => {
           isFirstRender.current = false;
           return;
         }
-        const dataFetch = await axios.get(
-          `https://api.themoviedb.org/3/trending/movie/day?api_key=7e0fc0f40a1f522dce260b9a97593bef`
-        );
+        const dataFetch = await fetchTrending();
         if (!dataFetch) {
           return;
         }
-        console.log(dataFetch.data);
         const filmsData = dataFetch.data.results;
         setFilms(p => [...p, ...filmsData]);
       } catch (error) {}
