@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
-// import axios from 'axios';
 import ListFilm from 'components/ListFilm/ListFilm';
-import { fetchTrending } from 'components/Services/Fetches';
+import api from 'components/Services/Fetches';
 
 const Home = () => {
   const [films, setFilms] = useState([]);
@@ -13,7 +12,7 @@ const Home = () => {
           isFirstRender.current = false;
           return;
         }
-        const dataFetch = await fetchTrending();
+        const dataFetch = await api.fetchTrending();
         if (!dataFetch) {
           return;
         }
