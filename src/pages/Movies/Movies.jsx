@@ -21,7 +21,11 @@ const Movies = () => {
           return;
         }
         const fetchSearchingFilms = await getFilmByName({ filmName });
-        setFoundFilms(fetchSearchingFilms.data.results);
+        if (fetchSearchingFilms.data.results.length === 0) {
+          alert('Sorry, there are no films with this word');
+        } else {
+          setFoundFilms(fetchSearchingFilms.data.results);
+        }
       } catch (error) {
         console.log(error);
       }

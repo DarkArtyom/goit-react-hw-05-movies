@@ -21,7 +21,7 @@ const SearchBar = ({ onInputSubmit }) => {
     evt.preventDefault();
 
     if (query.trim() === '') {
-      return alert('Enter image for search');
+      return alert('Enter film for search');
     }
     onInputSubmit(query);
   };
