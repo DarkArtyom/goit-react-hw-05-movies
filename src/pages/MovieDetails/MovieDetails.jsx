@@ -18,7 +18,7 @@ const MovieDetails = () => {
   const [filmById, setFilmById] = useState(null);
   const location = useLocation();
   const fromLocationRef = location.state.from;
-  // const backLinkHref = location.state?.from ?? '/movies';
+  const backLinkHref = location.state?.from ?? '/movies';
 
   useEffect(() => {
     const controller = new AbortController();
@@ -73,12 +73,12 @@ const MovieDetails = () => {
           <AditionalTitle>Aditional information</AditionalTitle>
           <AditionalList>
             <li>
-              <StyledLink to="cast" state={{ from: location.state.from }}>
+              <StyledLink to="cast" state={{ from: backLinkHref }}>
                 Cast
               </StyledLink>
             </li>
             <li>
-              <StyledLink to="reviews" state={{ from: location.state.from }}>
+              <StyledLink to="reviews" state={{ from: backLinkHref }}>
                 Reviews
               </StyledLink>
             </li>

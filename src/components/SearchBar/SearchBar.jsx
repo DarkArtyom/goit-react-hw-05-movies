@@ -7,15 +7,22 @@ import {
 } from './SearchBar.styled';
 import { FcSearch } from 'react-icons/fc';
 import PropTypes from 'prop-types';
-import { useSearchParams } from 'react-router-dom';
+// import { useSearchParams } from 'react-router-dom';
 
-const SearchBar = ({ onHandleSubmit }) => {
-  const [searchParams, setSearchParams] = useSearchParams();
-  const query = searchParams.get('query') ?? '';
+import { useState } from 'react';
 
-  const handleFilmName = value => {
-    setSearchParams(value !== '' ? { query: value } : {});
+const SearchBar = ({ onInputSubmit }) => {
+  const [query, setQuery] = useState('');
+  // const [searchParams, setSearchParams] = useSearchParams();
+  // const query = searchParams.get('query') ?? '';
+
+  const handleFilmName = event => {
+    setQuery(event.target.value);
   };
+
+  // const handleFilmName = value => {
+  //   setSearchParams(value !== '' ? { query: value } : {});
+  // };
 
   const handleSubmit = evt => {
     evt.preventDefault();
@@ -23,7 +30,7 @@ const SearchBar = ({ onHandleSubmit }) => {
     if (query.trim() === '') {
       return alert('Enter film for search');
     }
-    onHandleSubmit(query);
+    onInputSubmit(query);
   };
 
   return (
@@ -38,10 +45,8 @@ const SearchBar = ({ onHandleSubmit }) => {
           autocomplete="off"
           autoFocus
           placeholder="Search films by name"
-          // value={query}
-          onChange={e => {
-            handleFilmName(e.target.value);
-          }}
+          value={query}
+          onChange={handleFilmName}
         />
       </SearchForm>
     </SearchFormWrap>
@@ -51,5 +56,5 @@ const SearchBar = ({ onHandleSubmit }) => {
 export default SearchBar;
 
 SearchBar.propTypes = {
-  onHandleSubmit: PropTypes.func.isRequired,
+  onInputSubmit: PropTypes.func.isRequired,
 };
