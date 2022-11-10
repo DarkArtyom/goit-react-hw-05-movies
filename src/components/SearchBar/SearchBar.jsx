@@ -9,12 +9,12 @@ import { FcSearch } from 'react-icons/fc';
 import PropTypes from 'prop-types';
 import { useSearchParams } from 'react-router-dom';
 
-const SearchBar = ({ onInputSubmit }) => {
+const SearchBar = ({ onHandleSubmit }) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const query = searchParams.get('query') ?? '';
 
-  const handleFilmName = event => {
-    setSearchParams({ query: event.currentTarget.value.toLowerCase() });
+  const handleFilmName = value => {
+    setSearchParams(value !== '' ? { query: value } : {});
   };
 
   const handleSubmit = evt => {
@@ -23,7 +23,7 @@ const SearchBar = ({ onInputSubmit }) => {
     if (query.trim() === '') {
       return alert('Enter film for search');
     }
-    onInputSubmit(query);
+    onHandleSubmit(query);
   };
 
   return (
@@ -38,8 +38,10 @@ const SearchBar = ({ onInputSubmit }) => {
           autocomplete="off"
           autoFocus
           placeholder="Search films by name"
-          value={query}
-          onChange={handleFilmName}
+          // value={query}
+          onChange={e => {
+            handleFilmName(e.target.value);
+          }}
         />
       </SearchForm>
     </SearchFormWrap>
@@ -49,5 +51,5 @@ const SearchBar = ({ onInputSubmit }) => {
 export default SearchBar;
 
 SearchBar.propTypes = {
-  onInputSubmit: PropTypes.func.isRequired,
+  onHandleSubmit: PropTypes.func.isRequired,
 };

@@ -11,13 +11,14 @@ import {
   AditionalList,
   AditionalTitle,
 } from './MovieDetails.styled';
-import { getFilmById } from 'components/Services/Fetches';
+import { getFilmById } from 'Services/Fetches';
 
 const MovieDetails = () => {
   const { movieId } = useParams();
   const [filmById, setFilmById] = useState(null);
   const location = useLocation();
-  const backLinkHref = location.state?.from ?? '/movies';
+  const fromLocationRef = location.state.from;
+  // const backLinkHref = location.state?.from ?? '/movies';
 
   useEffect(() => {
     const controller = new AbortController();
@@ -44,7 +45,7 @@ const MovieDetails = () => {
   return (
     <main>
       <SectionMovieDetails>
-        <StyledLink to={backLinkHref}>Go back</StyledLink>
+        <StyledLink to={fromLocationRef}>Go back</StyledLink>
         <ContainerMovieDetails>
           <img
             src={`https://image.tmdb.org/t/p/w500${poster_path}`}
@@ -72,10 +73,14 @@ const MovieDetails = () => {
           <AditionalTitle>Aditional information</AditionalTitle>
           <AditionalList>
             <li>
-              <StyledLink to="cast">Cast</StyledLink>
+              <StyledLink to="cast" state={{ from: location.state.from }}>
+                Cast
+              </StyledLink>
             </li>
             <li>
-              <StyledLink to="reviews">Reviews</StyledLink>
+              <StyledLink to="reviews" state={{ from: location.state.from }}>
+                Reviews
+              </StyledLink>
             </li>
           </AditionalList>
         </div>

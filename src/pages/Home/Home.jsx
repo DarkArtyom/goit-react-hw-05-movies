@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
 import ListFilm from 'components/ListFilm/ListFilm';
-import { fetchTrending } from 'components/Services/Fetches';
+import { fetchTrending } from 'Services/Fetches';
 
 const Home = () => {
   const [films, setFilms] = useState([]);
+
   useEffect(() => {
     const controller = new AbortController();
     const signal = controller.signal;

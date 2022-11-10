@@ -41,6 +41,14 @@ export async function getFilmReviews({ movieId }, signal) {
   return response;
 }
 
+export async function getFilmByQuery({ query }, signal) {
+  const response = await axios.get(
+    `https://api.themoviedb.org/3/search/movie?api_key=7e0fc0f40a1f522dce260b9a97593bef&language=en-US&query=${query}`,
+    { signal }
+  );
+  return response;
+}
+
 getFilmById.propTypes = {
   movieId: PropTypes.number.isRequired,
   signal: PropTypes.object.isRequired,

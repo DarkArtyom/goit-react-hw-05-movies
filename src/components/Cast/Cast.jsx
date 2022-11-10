@@ -7,7 +7,7 @@ import {
   Section,
   CastImg,
 } from './Cast.styled';
-import { getFilmCast } from 'components/Services/Fetches';
+import { getFilmCast } from 'Services/Fetches';
 
 const Cast = () => {
   const { movieId } = useParams();
